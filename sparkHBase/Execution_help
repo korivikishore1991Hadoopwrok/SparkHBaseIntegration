@@ -1,0 +1,41 @@
+zip -d events_spark_etl_db1.jar 'META-INF/.SF' 'META-INF/.RSA' 'META-INF/*SF'
+sed -i -e 's/\r$//' /home/arcadia/events_spark_etl/spark-etl.sh
+
+Execution on Events for maximum resource allocation:
+spark-submit --class "com.sparkHBase.sparkHBase" \
+--master yarn --deploy-mode client --num-executors 120 \
+--driver-memory 17g --executor-cores 3 --executor-memory 17g \
+--jars /usr/hdp/current/hbase-client/lib/hbase-client.jar,\
+/usr/hdp/current/hbase-client/lib/hbase-common.jar,\
+/usr/hdp/current/hbase-client/lib/hbase-server.jar,\
+/usr/hdp/current/hbase-client/lib/guava-12.0.1.jar,\
+/usr/hdp/current/hbase-client/lib/hbase-protocol.jar,\
+/usr/hdp/current/hbase-client/lib/htrace-core-3.1.0-incubating.jar \
+--files /etc/hbase/conf/hbase-site.xml \
+/home/arcadia/sparkhbase.jar>output.log 2>&1
+
+
+spark-submit \
+--class "com.arcadiadata.EventsConvert" \
+--master yarn --deploy-mode client \
+--num-executors 120 \
+--driver-memory 17g \
+--executor-cores 3 \
+--executor-memory 17g \
+/home/arcadia/events_spark_etl_db1.jar 2018_01_08_14 eventlog6>output.log 2>&1
+
+spark-submit --class \
+"com.infosight_alerts.fileScoop" \
+--master yarn --deploy-mode client \
+--num-executors 120 --driver-memory 17g \
+--executor-cores 3 --executor-memory 17g \
+/home/arcadia/hpe_alerts.jar 2018-05-11-13 2018-05-11-14 > \
+output.log 2>&1
+
+spark-submit --class \
+"com.infosight_alerts.fileParse" \
+--master yarn --deploy-mode client \
+--num-executors 120 --driver-memory 17g \
+--executor-cores 3 --executor-memory 17g \
+/home/arcadia/hpe_alerts.jar -cH 2018-05-11-14 > \
+output.log 2>&1
