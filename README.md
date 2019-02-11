@@ -116,7 +116,6 @@ $ hbase shell ./asteroids.sh
 
 # Retriving Data from HBase shell
 t = get_table 'hbase:meta'
-t.scan, {
-limit 1
-}
+t.scan, {'LIMIT' => 1}
+scan 'hbase:meta', {'LIMIT' => 5}
 ```
