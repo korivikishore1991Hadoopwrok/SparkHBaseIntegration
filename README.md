@@ -14,6 +14,10 @@ Hbase integration with Spark. A sample project is given in Scala
 ## Testing using spark-shell for imports.	4  
 ## Testing for connection to HBase	4  
 ## Other methods for HBase and Spark Integration	4  
+## Executing with jars and config file for Hbase in YARN mode
+## executing HBase CMD in a script from CMD line.
+## Retriving Data from HBase shell
+
   
 ```code
 # Starting Hbase 
@@ -107,4 +111,9 @@ spark-submit --class "com.sparkHBase.sparkHBase" --master yarn --deploy-mode cli
 # executing HBase CMD in a script from CMD line.
 $./asteroids.sh | hbase shell -n
 $ hbase shell ./asteroids.sh
+# Retriving Data from HBase shell
+t = get_table 'hbase:meta'
+t.scan, {
+limit 1
+}
 ```
