@@ -106,11 +106,14 @@ This is deprecated in Spark 1.0+.
 Please instead use:
  - ./spark-submit with --driver-class-path to augment the driver classpath
  - spark.executor.extraClassPath to augment the executor classpath
+ 
 # Executing with jars and config file for Hbase in YARN mode
 spark-submit --class "com.sparkHBase.sparkHBase" --master yarn --deploy-mode client --num-executors 120 --driver-memory 17g --executor-cores 3 --executor-memory 17g --jars /usr/hdp/current/hbase-client/lib/hbase-client.jar,/usr/hdp/current/hbase-client/lib/hbase-common.jar,/usr/hdp/current/hbase-client/lib/hbase-server.jar,/usr/hdp/current/hbase-client/lib/guava-12.0.1.jar,/usr/hdp/current/hbase-client/lib/hbase-protocol.jar,/usr/hdp/current/hbase-client/lib/htrace-core-3.1.0-incubating.jar --files /etc/hbase/conf/hbase-site.xml /home/arcadia/sparkhbase.jar>output.log 2>&1
+
 # executing HBase CMD in a script from CMD line.
 $./asteroids.sh | hbase shell -n
 $ hbase shell ./asteroids.sh
+
 # Retriving Data from HBase shell
 t = get_table 'hbase:meta'
 t.scan, {
